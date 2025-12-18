@@ -79,9 +79,13 @@ This registers the plugin in your `nx.json` and configures target defaults.
 
 #### 2. Add Supabase to a project
 
+Run the generator and follow the interactive prompts:
+
 ```bash
-nx g @nxsupabase/supabase:project --project=my-app
+nx g @nxsupabase/supabase:project
 ```
+
+> All generators support interactive prompts - just run the command without flags and you'll be guided through the options.
 
 This creates the Supabase directory structure:
 

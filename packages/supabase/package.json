@@ -1,6 +1,6 @@
 {
   "name": "@nxsupabase/supabase",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Nx plugin for Supabase - Automated migrations, type generation, and local dev setup for Nx monorepos",
   "license": "MIT",
   "repository": {

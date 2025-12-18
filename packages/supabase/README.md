@@ -93,9 +93,17 @@ This registers the plugin in your `nx.json` and sets up target defaults.
 
 ### 2. Add Supabase to a project
 
+Simply run the generator and follow the interactive prompts:
+
 ```bash
-nx g @nxsupabase/supabase:project --project=my-app
+nx g @nxsupabase/supabase:project
 ```
+
+You'll be guided through:
+- Selecting which project to add Supabase to
+- Configuring the directory name
+- Optionally linking to a remote Supabase project
+- Enabling Edge Functions
 
 This creates:
 
@@ -191,29 +199,47 @@ nx g @nxsupabase/supabase:migration --project=my-app --name=create_posts_table -
 
 ### function
 
-Create a new Supabase Edge Function.
+Create a new Supabase Edge Function with interactive prompts:
 
 ```bash
-nx g @nxsupabase/supabase:function --project=<name> --name=<function-name>
+nx g @nxsupabase/supabase:function
 ```
+
+You'll be guided through selecting:
+- Function name (kebab-case)
+- Target project
+- Template type (basic, crud, webhook, or x402)
+- JWT authentication settings
+- Payment settings (if x402 template selected)
+
+**Available Templates:**
+
+| Template | Description |
+|----------|-------------|
+| `basic` | Simple hello world function |
+| `crud` | Database operations with Supabase client |
+| `webhook` | Handle incoming webhook events |
+| `x402` | Payment-required endpoint via [x402.org](https://x402.org) |
+
+**Options (can also be passed as flags):**
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `--project` | `string` | - | Target project **(required)** |
-| `--name` | `string` | - | Function name in kebab-case **(required)** |
+| `--name` | `string` | - | Function name in kebab-case |
+| `--project` | `string` | - | Target project |
+| `--template` | `string` | `basic` | Template type |
 | `--verifyJwt` | `boolean` | `true` | Require JWT verification |
-| `--template` | `string` | `basic` | Template: `basic`, `crud`, `webhook`, `x402` |
 | `--paymentAmount` | `string` | `0.01` | Payment amount in USD (x402 only) |
-| `--paymentNetwork` | `string` | `base` | Blockchain network: `base`, `base-sepolia`, `ethereum`, `polygon` |
+| `--paymentNetwork` | `string` | `base` | Blockchain network (x402 only) |
 
-**Examples:**
+**Quick examples with flags:**
 
 ```bash
-# Basic webhook function
-nx g @nxsupabase/supabase:function --project=my-app --name=send-notification --template=webhook
+# Webhook function
+nx g @nxsupabase/supabase:function --name=webhook-handler --template=webhook
 
-# x402 paid API endpoint
-nx g @nxsupabase/supabase:function --project=my-app --name=premium-api --template=x402 --paymentAmount=0.05
+# x402 paid endpoint
+nx g @nxsupabase/supabase:function --name=premium-api --template=x402 --paymentAmount=0.05
 ```
 
 #### x402 Payment Template

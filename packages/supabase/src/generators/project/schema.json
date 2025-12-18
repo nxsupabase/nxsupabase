@@ -17,11 +17,22 @@
     "directory": {
       "type": "string",
       "description": "Directory for Supabase files (relative to project root)",
-      "default": "supabase"
+      "default": "supabase",
+      "x-prompt": "Supabase directory name (relative to project root):"
     },
     "projectId": {
       "type": "string",
-      "description": "Supabase project ID (for linking to remote)"
+      "description": "Supabase project ID (for linking to remote)",
+      "x-prompt": "Supabase project ID (leave empty for local-only, or enter your project ref):"
+    },
+    "enableEdgeFunctions": {
+      "type": "boolean",
+      "description": "Setup Edge Functions directory",
+      "default": true,
+      "x-prompt": {
+        "message": "Would you like to enable Edge Functions?",
+        "type": "confirmation"
+      }
     },
     "dbPort": {
       "type": "number",
@@ -38,11 +49,6 @@
     "inbucketPort": {
       "type": "number",
       "description": "Local email testing port (auto-assigned if not specified)"
-    },
-    "enableEdgeFunctions": {
-      "type": "boolean",
-      "description": "Setup Edge Functions directory",
-      "default": true
     },
     "skipInit": {
       "type": "boolean",

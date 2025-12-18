@@ -20,27 +20,61 @@
       "x-prompt": "Which project should the function be created in?",
       "x-dropdown": "projects"
     },
-    "verifyJwt": {
-      "type": "boolean",
-      "description": "Require JWT verification for the function",
-      "default": true
-    },
     "template": {
       "type": "string",
       "description": "Function template to use",
       "enum": ["basic", "crud", "webhook", "x402"],
-      "default": "basic"
+      "default": "basic",
+      "x-prompt": {
+        "message": "Which template would you like to use?",
+        "type": "list",
+        "items": [
+          { "value": "basic", "label": "Basic - Simple hello world function" },
+          { "value": "crud", "label": "CRUD - Database operations with Supabase client" },
+          { "value": "webhook", "label": "Webhook - Handle incoming webhook events" },
+          { "value": "x402", "label": "x402 - Payment-required endpoint (micropayments via x402.org)" }
+        ]
+      }
+    },
+    "verifyJwt": {
+      "type": "boolean",
+      "description": "Require JWT verification for the function",
+      "default": true,
+      "x-prompt": {
+        "message": "Should this function require JWT authentication?",
+        "type": "confirmation"
+      }
     },
     "paymentAmount": {
       "type": "string",
       "description": "Payment amount in USD for x402 template (e.g., '0.01')",
-      "default": "0.01"
+      "default": "0.01",
+      "x-prompt": {
+        "message": "Payment amount in USD (for x402 template):",
+        "type": "string",
+        "when": {
+          "template": "x402"
+        }
+      }
     },
     "paymentNetwork": {
       "type": "string",
       "description": "Blockchain network for x402 payments",
       "enum": ["base", "base-sepolia", "ethereum", "polygon"],
-      "default": "base"
+      "default": "base",
+      "x-prompt": {
+        "message": "Which blockchain network for payments?",
+        "type": "list",
+        "items": [
+          { "value": "base", "label": "Base - Low fees, fast transactions (recommended)" },
+          { "value": "base-sepolia", "label": "Base Sepolia - Testnet for development" },
+          { "value": "ethereum", "label": "Ethereum - Mainnet" },
+          { "value": "polygon", "label": "Polygon - Low fees alternative" }
+        ],
+        "when": {
+          "template": "x402"
+        }
+      }
     },
     "directory": {
       "type": "string",
