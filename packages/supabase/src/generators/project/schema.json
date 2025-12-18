@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "NxSupabaseProject",
+  "title": "Setup Supabase Project",
+  "description": "Configure Supabase for a project",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project to add Supabase to",
+      "$default": {
+        "$source": "projectName"
+      },
+      "x-prompt": "Which project should Supabase be added to?",
+      "x-dropdown": "projects"
+    },
+    "directory": {
+      "type": "string",
+      "description": "Directory for Supabase files (relative to project root)",
+      "default": "supabase"
+    },
+    "projectId": {
+      "type": "string",
+      "description": "Supabase project ID (for linking to remote)"
+    },
+    "dbPort": {
+      "type": "number",
+      "description": "Local database port (auto-assigned if not specified)"
+    },
+    "apiPort": {
+      "type": "number",
+      "description": "Local API port (auto-assigned if not specified)"
+    },
+    "studioPort": {
+      "type": "number",
+      "description": "Local Studio port (auto-assigned if not specified)"
+    },
+    "inbucketPort": {
+      "type": "number",
+      "description": "Local email testing port (auto-assigned if not specified)"
+    },
+    "enableEdgeFunctions": {
+      "type": "boolean",
+      "description": "Setup Edge Functions directory",
+      "default": true
+    },
+    "skipInit": {
+      "type": "boolean",
+      "description": "Skip running the init generator",
+      "default": false
+    }
+  },
+  "required": ["project"]
+}

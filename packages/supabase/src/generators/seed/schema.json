@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "NxSupabaseSeed",
+  "title": "Create Seed File",
+  "description": "Create a database seed file for local development",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The project to create the seed file in",
+      "$default": {
+        "$source": "projectName"
+      },
+      "x-prompt": "Which project should the seed file be created in?",
+      "x-dropdown": "projects"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the seed file (without extension)",
+      "default": "seed"
+    },
+    "directory": {
+      "type": "string",
+      "description": "Supabase directory (relative to project root)",
+      "default": "supabase"
+    }
+  },
+  "required": ["project"]
+}

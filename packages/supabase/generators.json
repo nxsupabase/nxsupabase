@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "generators": {
+    "init": {
+      "factory": "./dist/generators/init/generator",
+      "schema": "./dist/generators/init/schema.json",
+      "description": "Initialize Supabase support in the Nx workspace"
+    },
+    "project": {
+      "factory": "./dist/generators/project/generator",
+      "schema": "./dist/generators/project/schema.json",
+      "description": "Add Supabase configuration to a project",
+      "aliases": ["setup", "add"]
+    },
+    "migration": {
+      "factory": "./dist/generators/migration/generator",
+      "schema": "./dist/generators/migration/schema.json",
+      "description": "Create a new database migration"
+    },
+    "function": {
+      "factory": "./dist/generators/function/generator",
+      "schema": "./dist/generators/function/schema.json",
+      "description": "Create a new Supabase Edge Function",
+      "aliases": ["edge-function"]
+    },
+    "seed": {
+      "factory": "./dist/generators/seed/generator",
+      "schema": "./dist/generators/seed/schema.json",
+      "description": "Create a database seed file"
+    }
+  }
+}

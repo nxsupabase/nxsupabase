@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "title": "Serve Edge Functions",
+  "description": "Serve Edge Functions locally for development",
+  "type": "object",
+  "properties": {
+    "supabaseDirectory": {
+      "type": "string",
+      "description": "Path to supabase directory"
+    },
+    "functions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Specific functions to serve (serves all if not specified)"
+    },
+    "noVerifyJwt": {
+      "type": "boolean",
+      "description": "Serve functions without JWT verification",
+      "default": false
+    },
+    "envFile": {
+      "type": "string",
+      "description": "Path to .env file for function environment variables"
+    },
+    "debug": {
+      "type": "boolean",
+      "description": "Enable debug mode for inspector",
+      "default": false
+    }
+  },
+  "required": ["supabaseDirectory"]
+}

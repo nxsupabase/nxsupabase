@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "title": "Database Push",
+  "description": "Push schema changes to remote database",
+  "type": "object",
+  "properties": {
+    "supabaseDirectory": {
+      "type": "string",
+      "description": "Path to supabase directory"
+    },
+    "dryRun": {
+      "type": "boolean",
+      "description": "Print the SQL that would be executed without applying",
+      "default": false
+    },
+    "linkedProject": {
+      "type": "string",
+      "description": "Project ref to push to (overrides linked project)"
+    },
+    "password": {
+      "type": "string",
+      "description": "Database password (uses SUPABASE_DB_PASSWORD env var if not provided)"
+    },
+    "includeSeed": {
+      "type": "boolean",
+      "description": "Include seed data after push",
+      "default": false
+    }
+  },
+  "required": ["supabaseDirectory"]
+}

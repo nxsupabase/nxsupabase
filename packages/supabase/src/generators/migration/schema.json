@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "NxSupabaseMigration",
+  "title": "Create Migration",
+  "description": "Create a new database migration",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the migration (use snake_case)",
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "x-prompt": "What should the migration be called? (use snake_case, e.g., create_users_table)"
+    },
+    "project": {
+      "type": "string",
+      "description": "The project to create the migration in",
+      "$default": {
+        "$source": "projectName"
+      },
+      "x-prompt": "Which project should the migration be created in?",
+      "x-dropdown": "projects"
+    },
+    "sql": {
+      "type": "string",
+      "description": "Initial SQL content for the migration"
+    },
+    "directory": {
+      "type": "string",
+      "description": "Supabase directory (relative to project root)",
+      "default": "supabase"
+    }
+  },
+  "required": ["name", "project"]
+}

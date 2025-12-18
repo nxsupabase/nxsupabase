@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "executors": {
+    "start": {
+      "implementation": "./dist/executors/start/executor",
+      "schema": "./dist/executors/start/schema.json",
+      "description": "Start local Supabase containers"
+    },
+    "stop": {
+      "implementation": "./dist/executors/stop/executor",
+      "schema": "./dist/executors/stop/schema.json",
+      "description": "Stop local Supabase containers"
+    },
+    "status": {
+      "implementation": "./dist/executors/status/executor",
+      "schema": "./dist/executors/status/schema.json",
+      "description": "Show local Supabase status"
+    },
+    "db-reset": {
+      "implementation": "./dist/executors/db-reset/executor",
+      "schema": "./dist/executors/db-reset/schema.json",
+      "description": "Reset local database and re-apply migrations"
+    },
+    "db-push": {
+      "implementation": "./dist/executors/db-push/executor",
+      "schema": "./dist/executors/db-push/schema.json",
+      "description": "Push database schema to remote Supabase project"
+    },
+    "migrate": {
+      "implementation": "./dist/executors/migrate/executor",
+      "schema": "./dist/executors/migrate/schema.json",
+      "description": "Run database migrations"
+    },
+    "gen-types": {
+      "implementation": "./dist/executors/gen-types/executor",
+      "schema": "./dist/executors/gen-types/schema.json",
+      "description": "Generate TypeScript types from database schema"
+    },
+    "deploy": {
+      "implementation": "./dist/executors/deploy/executor",
+      "schema": "./dist/executors/deploy/schema.json",
+      "description": "Deploy Edge Functions and push migrations to Supabase cloud"
+    },
+    "functions-serve": {
+      "implementation": "./dist/executors/functions-serve/executor",
+      "schema": "./dist/executors/functions-serve/schema.json",
+      "description": "Serve Edge Functions locally for development"
+    }
+  }
+}

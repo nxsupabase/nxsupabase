@@ -1,4 +1,70 @@
 {
+  "pluginsConfig": {
+    "@nx/js": {
+      "analyzeSourceFiles": true
+    }
+  },
   "extends": "nx/presets/npm.json",
-  "$schema": "./node_modules/nx/schemas/nx-schema.json"
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "plugins": [
+    {
+      "plugin": "@nx/js/typescript",
+      "options": {
+        "typecheck": {
+          "targetName": "typecheck"
+        },
+        "build": {
+          "targetName": "build",
+          "configName": "tsconfig.lib.json",
+          "buildDepsName": "build-deps",
+          "watchDepsName": "watch-deps"
+        }
+      }
+    },
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "test"
+      }
+    },
+    {
+      "plugin": "@nxsupabase/supabase",
+      "options": {
+        "startTargetName": "supabase-start",
+        "stopTargetName": "supabase-stop",
+        "genTypesTargetName": "supabase-gen-types",
+        "dbResetTargetName": "supabase-db-reset",
+        "deployTargetName": "supabase-deploy"
+      }
+    }
+  ],
+  "targetDefaults": {
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["default", "^default"]
+    },
+    "test": {
+      "dependsOn": ["^build"]
+    },
+    "@nx/esbuild:esbuild": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["default", "^default"]
+    },
+    "supabase-gen-types": {
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/supabase/migrations/**/*",
+        "{projectRoot}/supabase/config.toml"
+      ],
+      "outputs": ["{projectRoot}/src/types/supabase.ts"]
+    }
+  }
 }

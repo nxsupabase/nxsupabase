@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "title": "Run Migrations",
+  "description": "Run database migrations",
+  "type": "object",
+  "properties": {
+    "supabaseDirectory": {
+      "type": "string",
+      "description": "Path to supabase directory containing config.toml"
+    },
+    "target": {
+      "type": "string",
+      "enum": ["local", "remote"],
+      "description": "Target database for migrations",
+      "default": "local"
+    },
+    "dryRun": {
+      "type": "boolean",
+      "description": "Show SQL that would be executed without applying",
+      "default": false
+    }
+  },
+  "required": ["supabaseDirectory"]
+}

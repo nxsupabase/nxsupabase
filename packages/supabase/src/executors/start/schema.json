@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "title": "Start Supabase",
+  "description": "Start local Supabase containers",
+  "type": "object",
+  "properties": {
+    "supabaseDirectory": {
+      "type": "string",
+      "description": "Path to supabase directory containing config.toml"
+    },
+    "ignorePaths": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Paths to ignore when starting (for larger projects)"
+    },
+    "excludeServices": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Services to exclude from starting (e.g., inbucket, imgproxy)"
+    },
+    "debug": {
+      "type": "boolean",
+      "description": "Enable debug output",
+      "default": false
+    }
+  },
+  "required": ["supabaseDirectory"]
+}

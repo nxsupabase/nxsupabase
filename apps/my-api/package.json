@@ -1,0 +1,158 @@
+{
+  "name": "@nx-supabase/my-api",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "targets": {
+      "build": {
+        "executor": "@nx/esbuild:esbuild",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "defaultConfiguration": "production",
+        "options": {
+          "platform": "node",
+          "outputPath": "apps/my-api/dist",
+          "format": [
+            "cjs"
+          ],
+          "bundle": false,
+          "main": "apps/my-api/src/main.ts",
+          "tsConfig": "apps/my-api/tsconfig.app.json",
+          "assets": [
+            "apps/my-api/src/assets"
+          ],
+          "esbuildOptions": {
+            "sourcemap": true,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        },
+        "configurations": {
+          "development": {},
+          "production": {
+            "esbuildOptions": {
+              "sourcemap": false,
+              "outExtension": {
+                ".js": ".js"
+              }
+            }
+          }
+        }
+      },
+      "prune-lockfile": {
+        "dependsOn": [
+          "build"
+        ],
+        "cache": true,
+        "executor": "@nx/js:prune-lockfile",
+        "outputs": [
+          "{workspaceRoot}/apps/my-api/dist/package.json",
+          "{workspaceRoot}/apps/my-api/dist/package-lock.json"
+        ],
+        "options": {
+          "buildTarget": "build"
+        }
+      },
+      "copy-workspace-modules": {
+        "dependsOn": [
+          "build"
+        ],
+        "cache": true,
+        "outputs": [
+          "{workspaceRoot}/apps/my-api/dist/workspace_modules"
+        ],
+        "executor": "@nx/js:copy-workspace-modules",
+        "options": {
+          "buildTarget": "build"
+        }
+      },
+      "prune": {
+        "dependsOn": [
+          "prune-lockfile",
+          "copy-workspace-modules"
+        ],
+        "executor": "nx:noop"
+      },
+      "serve": {
+        "continuous": true,
+        "executor": "@nx/js:node",
+        "defaultConfiguration": "development",
+        "dependsOn": [
+          "build"
+        ],
+        "options": {
+          "buildTarget": "@nx-supabase/my-api:build",
+          "runBuildTargetDependencies": false
+        },
+        "configurations": {
+          "development": {
+            "buildTarget": "@nx-supabase/my-api:build:development"
+          },
+          "production": {
+            "buildTarget": "@nx-supabase/my-api:build:production"
+          }
+        }
+      },
+      "supabase-start": {
+        "executor": "@nxsupabase/supabase:start",
+        "options": {
+          "supabaseDirectory": "apps/my-api/supabase"
+        }
+      },
+      "supabase-stop": {
+        "executor": "@nxsupabase/supabase:stop",
+        "options": {
+          "supabaseDirectory": "apps/my-api/supabase"
+        }
+      },
+      "supabase-status": {
+        "executor": "@nxsupabase/supabase:status",
+        "options": {
+          "supabaseDirectory": "apps/my-api/supabase"
+        }
+      },
+      "supabase-db-reset": {
+        "executor": "@nxsupabase/supabase:db-reset",
+        "options": {
+          "supabaseDirectory": "apps/my-api/supabase"
+        }
+      },
+      "supabase-gen-types": {
+        "executor": "@nxsupabase/supabase:gen-types",
+        "options": {
+          "supabaseDirectory": "apps/my-api/supabase",
+          "outputPath": "apps/my-api/src/types/supabase.ts"
+        },
+        "cache": true,
+        "inputs": [
+          "{projectRoot}/supabase/migrations/**/*",
+          "{projectRoot}/supabase/config.toml"
+        ],
+        "outputs": [
+          "{projectRoot}/src/types/supabase.ts"
+        ]
+      },
+      "supabase-migrate": {
+        "executor": "@nxsupabase/supabase:migrate",
+        "options": {
+          "supabaseDirectory": "apps/my-api/supabase"
+        }
+      },
+      "supabase-db-push": {
+        "executor": "@nxsupabase/supabase:db-push",
+        "options": {
+          "supabaseDirectory": "apps/my-api/supabase"
+        }
+      },
+      "supabase-deploy": {
+        "executor": "@nxsupabase/supabase:deploy",
+        "options": {
+          "supabaseDirectory": "apps/my-api/supabase"
+        }
+      }
+    }
+  },
+  "dependencies": {}
+}

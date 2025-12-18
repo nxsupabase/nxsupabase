@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "@nx-supabase/my-api": {
+      "dbPort": 55142,
+      "apiPort": 55141,
+      "studioPort": 55143,
+      "inbucketPort": 55144,
+      "shadowPort": 55192,
+      "poolerPort": 55152
+    }
+  }
+}

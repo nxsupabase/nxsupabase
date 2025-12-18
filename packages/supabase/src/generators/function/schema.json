@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "NxSupabaseFunction",
+  "title": "Create Edge Function",
+  "description": "Create a new Supabase Edge Function",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the Edge Function (use kebab-case)",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "x-prompt": "What should the function be called? (use kebab-case, e.g., send-email)"
+    },
+    "project": {
+      "type": "string",
+      "description": "The project to create the function in",
+      "$default": {
+        "$source": "projectName"
+      },
+      "x-prompt": "Which project should the function be created in?",
+      "x-dropdown": "projects"
+    },
+    "verifyJwt": {
+      "type": "boolean",
+      "description": "Require JWT verification for the function",
+      "default": true
+    },
+    "template": {
+      "type": "string",
+      "description": "Function template to use",
+      "enum": ["basic", "crud", "webhook"],
+      "default": "basic"
+    },
+    "directory": {
+      "type": "string",
+      "description": "Supabase directory (relative to project root)",
+      "default": "supabase"
+    }
+  },
+  "required": ["name", "project"]
+}

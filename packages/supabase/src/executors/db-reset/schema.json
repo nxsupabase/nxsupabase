@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "title": "Database Reset",
+  "description": "Reset local database and re-apply all migrations",
+  "type": "object",
+  "properties": {
+    "supabaseDirectory": {
+      "type": "string",
+      "description": "Path to supabase directory containing config.toml"
+    },
+    "debug": {
+      "type": "boolean",
+      "description": "Enable debug output",
+      "default": false
+    }
+  },
+  "required": ["supabaseDirectory"]
+}

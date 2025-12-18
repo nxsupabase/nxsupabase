@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "NxSupabaseInit",
+  "title": "Initialize Supabase",
+  "description": "Initialize Supabase support in the Nx workspace",
+  "type": "object",
+  "properties": {
+    "skipInstall": {
+      "type": "boolean",
+      "description": "Skip checking/installing Supabase CLI",
+      "default": false
+    }
+  },
+  "required": []
+}

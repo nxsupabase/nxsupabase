@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "title": "Stop Supabase",
+  "description": "Stop local Supabase containers",
+  "type": "object",
+  "properties": {
+    "supabaseDirectory": {
+      "type": "string",
+      "description": "Path to supabase directory containing config.toml"
+    },
+    "noBackup": {
+      "type": "boolean",
+      "description": "Don't backup database before stopping",
+      "default": false
+    }
+  },
+  "required": ["supabaseDirectory"]
+}

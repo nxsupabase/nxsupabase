@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "title": "Generate Types",
+  "description": "Generate TypeScript types from database schema",
+  "type": "object",
+  "properties": {
+    "supabaseDirectory": {
+      "type": "string",
+      "description": "Path to supabase directory"
+    },
+    "outputPath": {
+      "type": "string",
+      "description": "Output path for generated types file",
+      "default": "src/types/supabase.ts"
+    },
+    "source": {
+      "type": "string",
+      "enum": ["local", "linked", "db-url"],
+      "description": "Source to generate types from",
+      "default": "local"
+    },
+    "dbUrl": {
+      "type": "string",
+      "description": "Database URL (required if source is db-url)"
+    },
+    "schemas": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Schemas to include in type generation",
+      "default": ["public"]
+    }
+  },
+  "required": ["supabaseDirectory", "outputPath"]
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "title": "Supabase Status",
+  "description": "Show local Supabase status",
+  "type": "object",
+  "properties": {
+    "supabaseDirectory": {
+      "type": "string",
+      "description": "Path to supabase directory containing config.toml"
+    }
+  },
+  "required": ["supabaseDirectory"]
+}

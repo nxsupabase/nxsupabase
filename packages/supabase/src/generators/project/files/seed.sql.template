@@ -1,0 +1,11 @@
+-- Supabase Seed File for <%= propertyName %>
+-- This file is run after migrations when you run `supabase db reset`
+-- Use this to insert initial data for local development
+
+-- Example: Insert sample data
+-- INSERT INTO public.users (id, email, name)
+-- VALUES
+--   ('00000000-0000-0000-0000-000000000001', 'admin@example.com', 'Admin User'),
+--   ('00000000-0000-0000-0000-000000000002', 'user@example.com', 'Test User');
+
+-- Add your seed data below:

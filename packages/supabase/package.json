@@ -1,0 +1,85 @@
+{
+  "name": "@nxsupabase/supabase",
+  "version": "0.0.1",
+  "description": "Nx plugin for Supabase - Automated migrations, type generation, and local dev setup for Nx monorepos",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nxsupabase/nxsupabase.git"
+  },
+  "keywords": [
+    "nx",
+    "nx-plugin",
+    "supabase",
+    "postgres",
+    "postgresql",
+    "edge-functions",
+    "deno",
+    "database",
+    "migrations",
+    "type-generation"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "generators": "./generators.json",
+  "executors": "./executors.json",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@nx-supabase/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./generators.json": "./generators.json",
+    "./executors.json": "./executors.json"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "executor": "@nx/js:tsc",
+        "outputs": ["{options.outputPath}"],
+        "options": {
+          "outputPath": "packages/supabase/dist",
+          "main": "packages/supabase/src/index.ts",
+          "tsConfig": "packages/supabase/tsconfig.lib.json",
+          "rootDir": "packages/supabase/src",
+          "generatePackageJson": false,
+          "assets": [
+            {
+              "input": "./packages/supabase/src",
+              "glob": "**/!(*.ts)",
+              "output": "."
+            },
+            {
+              "input": "./packages/supabase/src",
+              "glob": "**/*.d.ts",
+              "output": "."
+            },
+            {
+              "input": "./packages/supabase",
+              "glob": "generators.json",
+              "output": "."
+            },
+            {
+              "input": "./packages/supabase",
+              "glob": "executors.json",
+              "output": "."
+            }
+          ]
+        }
+      }
+    }
+  },
+  "peerDependencies": {
+    "@nx/devkit": ">=18.0.0",
+    "nx": ">=18.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0",
+    "@iarna/toml": "^2.2.5",
+    "dotenv": "^16.3.0",
+    "detect-port": "^1.5.1"
+  }
+}
