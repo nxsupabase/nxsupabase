@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./logo.svg" alt="NxSupabase Logo" width="400" />
+<img src="./logo-icon.svg" alt="NxSupabase Logo" width="180" />
 
 <br />
 <br />
