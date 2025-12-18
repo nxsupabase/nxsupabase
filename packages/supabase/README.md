@@ -1,32 +1,85 @@
+<div align="center">
+
 # @nxsupabase/supabase
 
-Nx plugin for Supabase - Automated migrations, type generation, and local dev setup for Nx monorepos.
+**Nx plugin for Supabase** - Automated migrations, type generation, and local dev setup for Nx monorepos.
+
+[![npm version](https://img.shields.io/npm/v/@nxsupabase/supabase?style=flat-square&logo=npm)](https://www.npmjs.com/package/@nxsupabase/supabase)
+[![License](https://img.shields.io/npm/l/@nxsupabase/supabase?style=flat-square)](https://opensource.org/licenses/MIT)
+
+</div>
+
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Generators](#generators)
+  - [init](#init)
+  - [project](#project)
+  - [migration](#migration)
+  - [function](#function)
+  - [seed](#seed)
+- [Executors](#executors)
+  - [supabase-start](#supabase-start)
+  - [supabase-stop](#supabase-stop)
+  - [supabase-status](#supabase-status)
+  - [supabase-db-reset](#supabase-db-reset)
+  - [supabase-gen-types](#supabase-gen-types)
+  - [supabase-migrate](#supabase-migrate)
+  - [supabase-db-push](#supabase-db-push)
+  - [supabase-deploy](#supabase-deploy)
+  - [supabase-functions-serve](#supabase-functions-serve)
+- [Multi-Project Support](#multi-project-support)
+- [Plugin Configuration](#plugin-configuration)
+- [Project Inference](#project-inference)
+- [Environment Variables](#environment-variables)
+- [TypeScript Types](#typescript-types)
+- [License](#license)
+
+---
 
 ## Features
 
-- **Generators** for scaffolding Supabase projects, migrations, and Edge Functions
-- **Executors** for local development, database operations, and deployment
-- **Automatic type generation** with Nx caching support
-- **Multi-project support** with automatic port management
-- **Project inference** via createNodesV2 (auto-detect Supabase configs)
-- **Full Docker orchestration** for local Supabase instances
+| Feature | Description |
+|---------|-------------|
+| **Generators** | Scaffold Supabase projects, migrations, and Edge Functions |
+| **Executors** | Local development, database operations, and deployment |
+| **Type Generation** | Automatic TypeScript types with Nx caching support |
+| **Multi-Project** | Support multiple Supabase instances with automatic port management |
+| **Project Inference** | Auto-detect Supabase configs via `createNodesV2` |
+| **Docker Orchestration** | Full local Supabase stack management |
+
+---
 
 ## Prerequisites
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
-- [Supabase CLI](https://supabase.com/docs/guides/cli) installed globally:
+Before using this plugin, ensure you have:
+
+- **Node.js** 18+ installed
+- **Docker Desktop** installed and running - [Download](https://www.docker.com/products/docker-desktop/)
+- **Supabase CLI** installed globally:
 
 ```bash
+# Via npm
 npm install -g supabase
-# or
+
+# Via Homebrew (macOS)
 brew install supabase/tap/supabase
 ```
+
+---
 
 ## Installation
 
 ```bash
-npm install @nxsupabase/supabase
+npm install @nxsupabase/supabase --save-dev
 ```
+
+---
 
 ## Quick Start
 
@@ -45,10 +98,15 @@ nx g @nxsupabase/supabase:project --project=my-app
 ```
 
 This creates:
-- `apps/my-app/supabase/config.toml` - Supabase configuration
-- `apps/my-app/supabase/migrations/` - Database migrations directory
-- `apps/my-app/supabase/functions/` - Edge Functions directory
-- `apps/my-app/supabase/seed.sql` - Seed data file
+
+```
+apps/my-app/
+└── supabase/
+    ├── config.toml       # Supabase configuration
+    ├── migrations/       # Database migrations directory
+    ├── functions/        # Edge Functions directory
+    └── seed.sql          # Seed data file
+```
 
 ### 3. Start local development
 
@@ -56,7 +114,7 @@ This creates:
 nx run my-app:supabase-start
 ```
 
-This starts the local Supabase stack (PostgreSQL, Auth, Storage, etc.) in Docker.
+This starts the local Supabase stack (PostgreSQL, Auth, Storage, Realtime, etc.) in Docker.
 
 ### 4. Create migrations
 
@@ -72,6 +130,8 @@ nx run my-app:supabase-gen-types
 
 Types are cached by Nx and only regenerated when migrations change.
 
+---
+
 ## Generators
 
 ### init
@@ -84,7 +144,9 @@ nx g @nxsupabase/supabase:init [options]
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `--skipInstall` | boolean | false | Skip CLI installation check |
+| `--skipInstall` | `boolean` | `false` | Skip CLI installation check |
+
+---
 
 ### project
 
@@ -96,12 +158,14 @@ nx g @nxsupabase/supabase:project --project=<name> [options]
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `--project` | string | - | Target project name (required) |
-| `--directory` | string | supabase | Supabase directory name |
-| `--dbPort` | number | auto | Local database port |
-| `--apiPort` | number | auto | Local API port |
-| `--studioPort` | number | auto | Supabase Studio port |
-| `--enableEdgeFunctions` | boolean | true | Create functions directory |
+| `--project` | `string` | - | Target project name **(required)** |
+| `--directory` | `string` | `supabase` | Supabase directory name |
+| `--dbPort` | `number` | auto | Local database port |
+| `--apiPort` | `number` | auto | Local API port |
+| `--studioPort` | `number` | auto | Supabase Studio port |
+| `--enableEdgeFunctions` | `boolean` | `true` | Create functions directory |
+
+---
 
 ### migration
 
@@ -113,9 +177,17 @@ nx g @nxsupabase/supabase:migration --project=<name> --name=<migration-name>
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `--project` | string | - | Target project (required) |
-| `--name` | string | - | Migration name in snake_case (required) |
-| `--sql` | string | - | Initial SQL content |
+| `--project` | `string` | - | Target project **(required)** |
+| `--name` | `string` | - | Migration name in snake_case **(required)** |
+| `--sql` | `string` | - | Initial SQL content |
+
+**Example:**
+
+```bash
+nx g @nxsupabase/supabase:migration --project=my-app --name=create_posts_table --sql="CREATE TABLE posts (id uuid PRIMARY KEY DEFAULT gen_random_uuid());"
+```
+
+---
 
 ### function
 
@@ -127,10 +199,18 @@ nx g @nxsupabase/supabase:function --project=<name> --name=<function-name>
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `--project` | string | - | Target project (required) |
-| `--name` | string | - | Function name in kebab-case (required) |
-| `--verifyJwt` | boolean | true | Require JWT verification |
-| `--template` | string | basic | Template: basic, crud, webhook |
+| `--project` | `string` | - | Target project **(required)** |
+| `--name` | `string` | - | Function name in kebab-case **(required)** |
+| `--verifyJwt` | `boolean` | `true` | Require JWT verification |
+| `--template` | `string` | `basic` | Template: `basic`, `crud`, `webhook` |
+
+**Example:**
+
+```bash
+nx g @nxsupabase/supabase:function --project=my-app --name=send-notification --template=webhook
+```
+
+---
 
 ### seed
 
@@ -142,8 +222,10 @@ nx g @nxsupabase/supabase:seed --project=<name>
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `--project` | string | - | Target project (required) |
-| `--name` | string | seed | Seed file name |
+| `--project` | `string` | - | Target project **(required)** |
+| `--name` | `string` | `seed` | Seed file name |
+
+---
 
 ## Executors
 
@@ -157,9 +239,11 @@ nx run my-app:supabase-start
 
 | Option | Type | Description |
 |--------|------|-------------|
-| `supabaseDirectory` | string | Path to supabase directory |
-| `excludeServices` | string[] | Services to exclude |
-| `debug` | boolean | Enable debug output |
+| `supabaseDirectory` | `string` | Path to supabase directory |
+| `excludeServices` | `string[]` | Services to exclude (e.g., `["studio", "imgproxy"]`) |
+| `debug` | `boolean` | Enable debug output |
+
+---
 
 ### supabase-stop
 
@@ -171,8 +255,10 @@ nx run my-app:supabase-stop
 
 | Option | Type | Description |
 |--------|------|-------------|
-| `supabaseDirectory` | string | Path to supabase directory |
-| `noBackup` | boolean | Don't backup before stopping |
+| `supabaseDirectory` | `string` | Path to supabase directory |
+| `noBackup` | `boolean` | Don't backup before stopping |
+
+---
 
 ### supabase-status
 
@@ -182,6 +268,17 @@ Show local Supabase status and URLs.
 nx run my-app:supabase-status
 ```
 
+**Output includes:**
+- API URL
+- GraphQL URL
+- Studio URL
+- Inbucket URL
+- JWT secret
+- anon key
+- service_role key
+
+---
+
 ### supabase-db-reset
 
 Reset local database and re-apply all migrations.
@@ -189,6 +286,10 @@ Reset local database and re-apply all migrations.
 ```bash
 nx run my-app:supabase-db-reset
 ```
+
+> **Warning:** This will delete all data in your local database!
+
+---
 
 ### supabase-gen-types
 
@@ -200,10 +301,12 @@ nx run my-app:supabase-gen-types
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `supabaseDirectory` | string | - | Path to supabase directory |
-| `outputPath` | string | src/types/supabase.ts | Output file path |
-| `source` | string | local | Source: local, linked, db-url |
-| `schemas` | string[] | ["public"] | Schemas to include |
+| `supabaseDirectory` | `string` | - | Path to supabase directory |
+| `outputPath` | `string` | `src/types/supabase.ts` | Output file path |
+| `source` | `string` | `local` | Source: `local`, `linked`, `db-url` |
+| `schemas` | `string[]` | `["public"]` | Schemas to include |
+
+---
 
 ### supabase-migrate
 
@@ -215,8 +318,10 @@ nx run my-app:supabase-migrate
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `target` | string | local | Target: local, remote |
-| `dryRun` | boolean | false | Preview without applying |
+| `target` | `string` | `local` | Target: `local`, `remote` |
+| `dryRun` | `boolean` | `false` | Preview without applying |
+
+---
 
 ### supabase-db-push
 
@@ -228,9 +333,11 @@ nx run my-app:supabase-db-push
 
 | Option | Type | Description |
 |--------|------|-------------|
-| `dryRun` | boolean | Preview SQL without applying |
-| `linkedProject` | string | Project ref override |
-| `includeSeed` | boolean | Include seed data |
+| `dryRun` | `boolean` | Preview SQL without applying |
+| `linkedProject` | `string` | Project ref override |
+| `includeSeed` | `boolean` | Include seed data |
+
+---
 
 ### supabase-deploy
 
@@ -242,10 +349,12 @@ nx run my-app:supabase-deploy
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `projectRef` | string | - | Supabase project ID |
-| `functions` | string[] | all | Specific functions to deploy |
-| `deployFunctions` | boolean | true | Deploy Edge Functions |
-| `pushMigrations` | boolean | true | Push migrations |
+| `projectRef` | `string` | - | Supabase project ID |
+| `functions` | `string[]` | all | Specific functions to deploy |
+| `deployFunctions` | `boolean` | `true` | Deploy Edge Functions |
+| `pushMigrations` | `boolean` | `true` | Push migrations |
+
+---
 
 ### supabase-functions-serve
 
@@ -254,6 +363,10 @@ Serve Edge Functions locally for development.
 ```bash
 nx run my-app:supabase-functions-serve
 ```
+
+This starts a local server for testing Edge Functions with hot reload.
+
+---
 
 ## Multi-Project Support
 
@@ -272,6 +385,8 @@ nx affected -t supabase-db-reset
 
 Ports are stored in `.nx/supabase-ports.json` for consistency across team members.
 
+---
+
 ## Plugin Configuration
 
 Configure the plugin in `nx.json`:
@@ -284,31 +399,52 @@ Configure the plugin in `nx.json`:
       "options": {
         "startTargetName": "supabase-start",
         "stopTargetName": "supabase-stop",
+        "statusTargetName": "supabase-status",
         "genTypesTargetName": "supabase-gen-types",
         "dbResetTargetName": "supabase-db-reset",
-        "deployTargetName": "supabase-deploy"
+        "migrateTargetName": "supabase-migrate",
+        "dbPushTargetName": "supabase-db-push",
+        "deployTargetName": "supabase-deploy",
+        "functionsServeTargetName": "supabase-functions-serve"
       }
     }
   ]
 }
 ```
 
+---
+
 ## Project Inference
 
 The plugin automatically detects projects with `supabase/config.toml` and adds appropriate targets. No manual configuration needed after running the project generator.
 
+**How it works:**
+
+1. Plugin scans for `**/supabase/config.toml` files
+2. Matches each config to its parent Nx project
+3. Automatically registers all executor targets
+4. Sets up proper caching and dependencies
+
+---
+
 ## Environment Variables
 
-The plugin loads environment variables from:
+The plugin loads environment variables from (in order of priority):
+
 1. Workspace root `.env`
 2. Workspace root `.env.local`
 3. Project `.env`
 4. Project `.env.local`
 
-Common variables:
-- `SUPABASE_ACCESS_TOKEN` - For deployment
-- `SUPABASE_DB_PASSWORD` - Remote database password
-- `SUPABASE_PROJECT_REF` - Remote project reference
+### Common Variables
+
+| Variable | Description |
+|----------|-------------|
+| `SUPABASE_ACCESS_TOKEN` | For deployment authentication |
+| `SUPABASE_DB_PASSWORD` | Remote database password |
+| `SUPABASE_PROJECT_REF` | Remote project reference |
+
+---
 
 ## TypeScript Types
 
@@ -316,7 +452,7 @@ Generated types are fully typed for the Supabase client:
 
 ```typescript
 import { createClient } from '@supabase/supabase-js';
-import { Database } from './types/supabase';
+import type { Database } from './types/supabase';
 
 const supabase = createClient<Database>(
   process.env.SUPABASE_URL!,
@@ -325,8 +461,37 @@ const supabase = createClient<Database>(
 
 // Fully typed queries
 const { data } = await supabase.from('users').select('*');
+// TypeScript knows `data` is Array<Database['public']['Tables']['users']['Row']>
+
+// Type-safe inserts
+await supabase.from('posts').insert({
+  title: 'Hello World',
+  content: 'This is type-checked!'
+});
 ```
+
+### Generated Type Structure
+
+```typescript
+export type Database = {
+  public: {
+    Tables: {
+      users: {
+        Row: { id: string; email: string; created_at: string };
+        Insert: { id?: string; email: string; created_at?: string };
+        Update: { id?: string; email?: string; created_at?: string };
+      };
+      // ... other tables
+    };
+    Views: { /* ... */ };
+    Functions: { /* ... */ };
+    Enums: { /* ... */ };
+  };
+};
+```
+
+---
 
 ## License
 
-MIT
+MIT - see [LICENSE](../../LICENSE) for details.
