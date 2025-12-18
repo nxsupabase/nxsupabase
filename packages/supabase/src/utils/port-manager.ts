@@ -1,7 +1,6 @@
 import { Tree, readJson, writeJson } from '@nx/devkit';
 import { createHash } from 'crypto';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const detectPort = require('detect-port') as (port: number) => Promise<number>;
 
 export interface PortConfig {

@@ -34,7 +34,7 @@ export async function startExecutor(
     const args: string[] = ['start'];
 
     if (options.ignorePaths?.length) {
-      options.ignorePaths.forEach((path) => {
+      options.ignorePaths.forEach(() => {
         args.push('--ignore-health-check');
       });
     }

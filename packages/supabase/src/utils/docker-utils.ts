@@ -81,7 +81,7 @@ export async function getSupabaseStatus(
  */
 export function resolveSupabasePath(
   supabaseDirectory: string,
-  context?: ExecutorContext
+  _context?: ExecutorContext
 ): string {
   if (isAbsolute(supabaseDirectory)) {
     return supabaseDirectory;

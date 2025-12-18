@@ -5,7 +5,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nxsupabase/nxsupabase.git"
+    "url": "https://github.com/versalarchitect/nxsupabase.git"
   },
   "keywords": [
     "nx",
@@ -73,12 +73,10 @@
     }
   },
   "peerDependencies": {
-    "@nx/devkit": ">=18.0.0",
-    "nx": ">=18.0.0"
+    "@nx/devkit": ">=18.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0",
-    "@iarna/toml": "^2.2.5",
     "dotenv": "^16.3.0",
     "detect-port": "^1.5.1"
   }
