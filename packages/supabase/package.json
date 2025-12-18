@@ -1,6 +1,6 @@
 {
   "name": "@nxsupabase/supabase",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Nx plugin for Supabase - Automated migrations, type generation, and local dev setup for Nx monorepos",
   "license": "MIT",
   "repository": {
@@ -17,7 +17,10 @@
     "deno",
     "database",
     "migrations",
-    "type-generation"
+    "type-generation",
+    "x402",
+    "payments",
+    "micropayments"
   ],
   "main": "./dist/index.js",
   "module": "./dist/index.js",
