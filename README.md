@@ -12,9 +12,9 @@ Automated migrations, type generation, and local dev setup for Nx monorepos.
 <br />
 
 [![npm version](https://img.shields.io/npm/v/@nxsupabase/supabase?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/@nxsupabase/supabase)
-[![License](https://img.shields.io/github/license/versalarchitect/nxsupabase?style=for-the-badge&color=blue)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/github/license/nxsupabase/nxsupabase?style=for-the-badge&color=blue)](https://opensource.org/licenses/MIT)
 [![Downloads](https://img.shields.io/npm/dm/@nxsupabase/supabase?style=for-the-badge&logo=npm&color=CB3837)](https://www.npmjs.com/package/@nxsupabase/supabase)
-[![GitHub Stars](https://img.shields.io/github/stars/versalarchitect/nxsupabase?style=for-the-badge&logo=github&color=yellow)](https://github.com/versalarchitect/nxsupabase)
+[![GitHub Stars](https://img.shields.io/github/stars/nxsupabase/nxsupabase?style=for-the-badge&logo=github&color=yellow)](https://github.com/nxsupabase/nxsupabase)
 
 <br />
 
@@ -279,6 +279,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Built with love for the Nx and Supabase communities**
 
-[Report Bug](https://github.com/versalarchitect/nxsupabase/issues) | [Request Feature](https://github.com/versalarchitect/nxsupabase/issues)
+[Report Bug](https://github.com/nxsupabase/nxsupabase/issues) | [Request Feature](https://github.com/nxsupabase/nxsupabase/issues)
 
 </div>
