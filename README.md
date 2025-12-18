@@ -1,24 +1,19 @@
 <div align="center">
 
-<img src="./logo-icon.svg" alt="NxSupabase Logo" width="180" />
+<img src="./logo-icon-512.png" alt="NxSupabase Logo" width="140" />
 
-<br />
-<br />
+<h1>NxSupabase</h1>
 
 **The official Nx plugin for Supabase**
 
 Automated migrations, type generation, and local dev setup for Nx monorepos.
-
-<br />
 
 [![npm version](https://img.shields.io/npm/v/@nxsupabase/supabase?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/@nxsupabase/supabase)
 [![License](https://img.shields.io/github/license/nxsupabase/nxsupabase?style=for-the-badge&color=blue)](https://opensource.org/licenses/MIT)
 [![Downloads](https://img.shields.io/npm/dm/@nxsupabase/supabase?style=for-the-badge&logo=npm&color=CB3837)](https://www.npmjs.com/package/@nxsupabase/supabase)
 [![GitHub Stars](https://img.shields.io/github/stars/nxsupabase/nxsupabase?style=for-the-badge&logo=github&color=yellow)](https://github.com/nxsupabase/nxsupabase)
 
-<br />
-
-[Getting Started](#-getting-started) | [Features](#-features) | [Documentation](#-documentation) | [Contributing](#-contributing)
+[Getting Started](#getting-started) · [Features](#features) · [Documentation](#documentation) · [Contributing](#contributing)
 
 </div>
 
