@@ -127,7 +127,7 @@ Types are automatically cached by Nx and regenerated only when migrations change
 | `init` | Initialize plugin in workspace | `nx g @nxsupabase/supabase:init` |
 | `project` | Add Supabase to a project | `nx g @nxsupabase/supabase:project --project=<name>` |
 | `migration` | Create a database migration | `nx g @nxsupabase/supabase:migration --project=<name> --name=<migration>` |
-| `function` | Create an Edge Function | `nx g @nxsupabase/supabase:function --project=<name> --name=<function>` |
+| `function` | Create an Edge Function | `nx g @nxsupabase/supabase:function --project=<name> --name=<function> --template=<basic\|crud\|webhook\|x402>` |
 | `seed` | Create a seed file | `nx g @nxsupabase/supabase:seed --project=<name>` |
 
 ### Executors

@@ -202,13 +202,37 @@ nx g @nxsupabase/supabase:function --project=<name> --name=<function-name>
 | `--project` | `string` | - | Target project **(required)** |
 | `--name` | `string` | - | Function name in kebab-case **(required)** |
 | `--verifyJwt` | `boolean` | `true` | Require JWT verification |
-| `--template` | `string` | `basic` | Template: `basic`, `crud`, `webhook` |
+| `--template` | `string` | `basic` | Template: `basic`, `crud`, `webhook`, `x402` |
+| `--paymentAmount` | `string` | `0.01` | Payment amount in USD (x402 only) |
+| `--paymentNetwork` | `string` | `base` | Blockchain network: `base`, `base-sepolia`, `ethereum`, `polygon` |
 
-**Example:**
+**Examples:**
 
 ```bash
+# Basic webhook function
 nx g @nxsupabase/supabase:function --project=my-app --name=send-notification --template=webhook
+
+# x402 paid API endpoint
+nx g @nxsupabase/supabase:function --project=my-app --name=premium-api --template=x402 --paymentAmount=0.05
 ```
+
+#### x402 Payment Template
+
+The `x402` template creates a payment-required Edge Function using the [x402 protocol](https://x402.org). This enables internet-native micropayments for your API endpoints.
+
+```bash
+nx g @nxsupabase/supabase:function --project=my-app --name=paid-endpoint --template=x402
+```
+
+**Setup:**
+1. Set `X402_WALLET_ADDRESS` in your `.env` file
+2. Configure payment amount with `--paymentAmount` (default: 0.01 USDC)
+3. Choose network with `--paymentNetwork` (default: Base)
+
+**How it works:**
+- Requests without payment receive HTTP 402 with payment instructions
+- Clients pay via x402-compatible wallets
+- Payment is verified before executing your business logic
 
 ---
 

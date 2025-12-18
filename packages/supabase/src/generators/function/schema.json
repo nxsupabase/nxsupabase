@@ -28,8 +28,19 @@
     "template": {
       "type": "string",
       "description": "Function template to use",
-      "enum": ["basic", "crud", "webhook"],
+      "enum": ["basic", "crud", "webhook", "x402"],
       "default": "basic"
+    },
+    "paymentAmount": {
+      "type": "string",
+      "description": "Payment amount in USD for x402 template (e.g., '0.01')",
+      "default": "0.01"
+    },
+    "paymentNetwork": {
+      "type": "string",
+      "description": "Blockchain network for x402 payments",
+      "enum": ["base", "base-sepolia", "ethereum", "polygon"],
+      "default": "base"
     },
     "directory": {
       "type": "string",

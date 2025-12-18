@@ -168,6 +168,142 @@ serve(async (req) => {
 });
 `;
 
+const X402_TEMPLATE = (functionName: string, amount: string, network: string) => `import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { corsHeaders } from "../_shared/cors.ts";
+
+/**
+ * x402 Payment-Required Edge Function
+ *
+ * This function implements the x402 protocol for internet-native payments.
+ * Learn more: https://x402.org
+ *
+ * Environment variables required:
+ * - X402_WALLET_ADDRESS: Your wallet address to receive payments
+ * - X402_FACILITATOR_URL: (optional) Custom facilitator URL
+ */
+
+console.log("${functionName} x402 payment function started");
+
+// x402 Payment Configuration
+const PAYMENT_CONFIG = {
+  amount: "${amount}",
+  currency: "USDC",
+  network: "${network}",
+  recipient: Deno.env.get("X402_WALLET_ADDRESS") ?? "",
+  facilitatorUrl: Deno.env.get("X402_FACILITATOR_URL") ?? "https://x402.org/facilitator",
+};
+
+// Build the x402 payment requirement response
+function buildPaymentRequired(description: string) {
+  return {
+    x402Version: 1,
+    accepts: [
+      {
+        scheme: "exact",
+        network: PAYMENT_CONFIG.network,
+        maxAmountRequired: PAYMENT_CONFIG.amount,
+        resource: PAYMENT_CONFIG.recipient,
+        description: description,
+        mimeType: "application/json",
+        payTo: PAYMENT_CONFIG.recipient,
+        maxTimeoutSeconds: 60,
+        asset: \`\${PAYMENT_CONFIG.network === "base" || PAYMENT_CONFIG.network === "base-sepolia" ? "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" : "USDC"}\`,
+        extra: {
+          name: "${functionName}",
+          facilitator: PAYMENT_CONFIG.facilitatorUrl,
+        },
+      },
+    ],
+    error: null,
+  };
+}
+
+// Verify payment with the facilitator
+async function verifyPayment(paymentHeader: string): Promise<{ valid: boolean; txHash?: string }> {
+  try {
+    const response = await fetch(\`\${PAYMENT_CONFIG.facilitatorUrl}/verify\`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        payment: paymentHeader,
+        recipient: PAYMENT_CONFIG.recipient,
+        amount: PAYMENT_CONFIG.amount,
+        network: PAYMENT_CONFIG.network,
+      }),
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      return { valid: true, txHash: result.txHash };
+    }
+    return { valid: false };
+  } catch (error) {
+    console.error("Payment verification error:", error);
+    return { valid: false };
+  }
+}
+
+serve(async (req) => {
+  // Handle CORS preflight requests
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
+  }
+
+  try {
+    // Check for x402 payment header
+    const paymentHeader = req.headers.get("X-Payment") || req.headers.get("x-payment");
+
+    if (!paymentHeader) {
+      // No payment provided - return 402 Payment Required
+      const paymentRequired = buildPaymentRequired("Access to ${functionName} API endpoint");
+
+      return new Response(JSON.stringify(paymentRequired), {
+        status: 402,
+        headers: {
+          ...corsHeaders,
+          "Content-Type": "application/json",
+          "X-Payment-Required": "true",
+        },
+      });
+    }
+
+    // Verify the payment
+    const verification = await verifyPayment(paymentHeader);
+
+    if (!verification.valid) {
+      return new Response(JSON.stringify({ error: "Invalid or expired payment" }), {
+        status: 402,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Payment verified! Execute your business logic here
+    // ================================================
+
+    const { name } = await req.json().catch(() => ({}));
+
+    const data = {
+      message: \`Hello \${name || "World"}! Payment verified.\`,
+      txHash: verification.txHash,
+      paidAmount: PAYMENT_CONFIG.amount,
+      currency: PAYMENT_CONFIG.currency,
+    };
+
+    // ================================================
+
+    return new Response(JSON.stringify(data), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 200,
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: error.message }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 500,
+    });
+  }
+});
+`;
+
 const WEBHOOK_TEMPLATE = (functionName: string) => `import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { corsHeaders } from "../_shared/cors.ts";
 
@@ -270,6 +406,13 @@ export async function functionGenerator(
     case 'webhook':
       template = WEBHOOK_TEMPLATE(functionName);
       break;
+    case 'x402':
+      template = X402_TEMPLATE(
+        functionName,
+        options.paymentAmount || '0.01',
+        options.paymentNetwork || 'base'
+      );
+      break;
     default:
       template = BASIC_TEMPLATE(functionName);
   }
@@ -295,13 +438,31 @@ verify_jwt = ${options.verifyJwt !== false}
   logger.info('');
   logger.info(`Edge Function '${functionName}' created at ${functionDir}`);
   logger.info('');
-  logger.info('Next steps:');
-  logger.info(`  1. Edit the function at ${indexPath}`);
-  logger.info(`  2. Run 'nx run ${options.project}:supabase-start' to test locally`);
-  logger.info(`  3. Invoke locally: curl -i --location --request POST 'http://127.0.0.1:54321/functions/v1/${functionName}' \\`);
-  logger.info(`       --header 'Authorization: Bearer <anon-key>' \\`);
-  logger.info(`       --header 'Content-Type: application/json' \\`);
-  logger.info(`       --data '{"name":"World"}'`);
+
+  if (options.template === 'x402') {
+    logger.info('x402 Payment-Required Function Setup:');
+    logger.info('');
+    logger.info('  1. Set your wallet address in .env:');
+    logger.info('     X402_WALLET_ADDRESS=0xYourWalletAddress');
+    logger.info('');
+    logger.info(`  2. Payment configured: ${options.paymentAmount || '0.01'} USDC on ${options.paymentNetwork || 'base'}`);
+    logger.info('');
+    logger.info('  3. Test locally:');
+    logger.info(`     nx run ${options.project}:supabase-start`);
+    logger.info('');
+    logger.info('  4. Without payment (returns 402):');
+    logger.info(`     curl -i 'http://127.0.0.1:54321/functions/v1/${functionName}'`);
+    logger.info('');
+    logger.info('  Learn more: https://x402.org');
+  } else {
+    logger.info('Next steps:');
+    logger.info(`  1. Edit the function at ${indexPath}`);
+    logger.info(`  2. Run 'nx run ${options.project}:supabase-start' to test locally`);
+    logger.info(`  3. Invoke locally: curl -i --location --request POST 'http://127.0.0.1:54321/functions/v1/${functionName}' \\`);
+    logger.info(`       --header 'Authorization: Bearer <anon-key>' \\`);
+    logger.info(`       --header 'Content-Type: application/json' \\`);
+    logger.info(`       --data '{"name":"World"}'`);
+  }
   logger.info('');
 }
 
